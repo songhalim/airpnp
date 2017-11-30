@@ -24,7 +24,7 @@ body {
 
 .container {
   width: auto;
-  max-width: 100%;
+  max-width: 90%;
   padding: 0 15px;
 }
 
@@ -69,5 +69,5 @@ body {
 }
 
 .title {
-  padding: 5% 0 0 5%;
+  padding: 5rem 0 0 10rem;
 }

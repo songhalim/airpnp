@@ -24,7 +24,7 @@ body {
 
 .container {
   width: auto;
-  max-width: 100%;
+  max-width: 90%;
   padding: 0 15px;
 }
 
@@ -50,7 +50,11 @@ body {
 }
 
 .host-description {
-  padding: 100px;
+  padding: 5rem 0 5rem 2rem;
+}
+
+.hd {
+  padding-bottom: 5rem;
 }
 
 .form-group {

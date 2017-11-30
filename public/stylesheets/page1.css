@@ -17,15 +17,18 @@ body {
   background-color: #f5f5f5;
 }
 
-
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
 .container {
   width: auto;
-  max-width: 100%;
+  max-width: 90%;
   padding: 0 15px;
+}
+
+main.container {
+  max-width: 100%;
 }
 
 .text-right {
@@ -36,6 +39,22 @@ body {
   border-bottom: 1px solid #f5f5f5;
 }
 
-#carouselExampleControls {
-  
+.carousel-inner {
+  margin: 0 auto;
+}
+
+.card-deck {
+  padding: 100px;
+  margin: auto;
+  width: 80%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: gray;
+  background-size: 60%;
+  background-position: center center;
+  border-radius: 500px;
+  width:30px;
+  height: 30px;
 }

@@ -36,30 +36,12 @@ body {
   border-bottom: 1px solid #f5f5f5;
 }
 
-.row {
-  margin: auto;
-}
-
-.carousel-inner {
+.log-in {
   margin: 0 auto;
-}
-
-.card-deck {
-  padding: 100px;
-  margin: auto;
-  width: 80%;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-color: gray;
-  background-size: 60%;
-  background-position: center center;
-  border-radius: 500px;
-  width:30px;
-  height: 30px;
+  max-width: 50%;
+  padding-top: 5%;
 }
 
 .title {
-  padding: 5rem 0 0 10rem;
+  padding-bottom: 20px;
 }

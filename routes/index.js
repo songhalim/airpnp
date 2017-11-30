@@ -11,7 +11,6 @@ router.get('/page1', function(req, res, next) {
 router.get('/page2', function(req, res, next) {
   res.render('page2');
 });
-
 router.get('/page3', function(req, res, next) {
   res.render('page3');
 });
@@ -20,6 +19,15 @@ router.get('/page4', function(req, res, next) {
 });
 router.get('/page5', function(req, res, next) {
   res.render('page5');
+});
+router.get('/page6', function(req, res, next) {
+  res.render('page6');
+});
+router.get('/page7', function(req, res, next) {
+  res.render('page7');
+});
+router.get('/page8', function(req, res, next) {
+  res.render('page8');
 });
 router.get('/page_template', function(req, res, next) {
   res.render('page_template');
