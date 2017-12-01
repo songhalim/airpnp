@@ -1,0 +1,1 @@
+{"emailPwPairs":[{"email":"wnfjd88@naver.com","pw":"wnfjd88wnfjd88"},{"email":"1234@asdf1232","pw":"efef"},{"email":"12312@2","pw":"111"},{"email":"12312@2213213","pw":"213213"},{"email":"12312@221321312323","pw":"543535"},{"email":"a@a.a","pw":"a"},{"email":"123@123.123","pw":"123@123.123"},{"email":"b@b.b","pw":"b"}],"pairsNumber":8}

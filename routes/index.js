@@ -34,19 +34,38 @@ router.get('/page_template', function(req, res, next) {
   res.render('page_template');
 });
 router.post('/login', function(req, res, next) {
-  console.log('/login data', req.body);
-  res.send(req.body);
+  var emailPwPairs = {email: req.body.email, pw: req.body.password};
+  let correct = false;
+  fs.readFile('database/users.txt', 'utf8', function(err, data) {
+    if(err) {
+      res.status(500).send('something is wrong');
+    } else {
+      var prevFile = JSON.parse(data);
+      var prevData = prevFile.emailPwPairs;
+      for (let dataIndex = 0; dataIndex < prevData.length; dataIndex++) {
+        if(prevData[dataIndex].email === emailPwPairs.email && prevData[dataIndex].pw === emailPwPairs.pw) {
+          correct = true;
+          break;
+        }
+      };
+      if(correct) {
+        res.redirect('/page1');
+      } else {
+        res.send('Invalid Email or Password');
+      }
+    }
+  });
 });
 router.post('/signup', function(req, res, next) {
   var emailPwPairs = {email: req.body.email, pw: req.body.password};
-  fs.readFile('database/users.txt', 'utf8', function(err, data){
-    if(err){
+  fs.readFile('database/users.txt', 'utf8', function(err, data) {
+    if(err) {
       res.status(500).send('something is wrong');
     } else {
       var prevFile = JSON.parse(data);
       var prevData = prevFile.emailPwPairs;
       for (var dataIndex = 0; dataIndex < prevData.length; dataIndex++) {
-        if (Object.values(prevData[dataIndex])[0] === Object.values(emailPwPairs)[0]) {
+        if (prevData[dataIndex].email === emailPwPairs.email) {
           res.send('Same Email is already exist');
           return;
       }};
