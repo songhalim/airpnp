@@ -1,6 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var session = require('express-session');
+
+router.use(session({
+  secret: 'hahahahah',
+  resave: false,
+  saveUninitialized: true,
+}));
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -45,19 +52,20 @@ router.post('/login', function(req, res, next) {
       for (let dataIndex = 0; dataIndex < prevData.length; dataIndex++) {
         if(prevData[dataIndex].email === emailPwPairs.email && prevData[dataIndex].pw === emailPwPairs.pw) {
           correct = true;
+          req.session.id = prevData[dataIndex].id;
           break;
         }
       };
-      if(correct) {
-        res.redirect('/page1');
-      } else {
-        res.send('Invalid Email or Password');
+    if(correct) {
+      res.redirect('/page1');
+    } else {
+      res.send('Invalid Email or Password');
       }
     }
   });
 });
 router.post('/signup', function(req, res, next) {
-  var emailPwPairs = {email: req.body.email, pw: req.body.password};
+  var emailPwPairs = {email: req.body.email, pw: req.body.password, hostIds: [], tripIds: []};
   fs.readFile('database/users.txt', 'utf8', function(err, data) {
     if(err) {
       res.status(500).send('something is wrong');
@@ -69,6 +77,7 @@ router.post('/signup', function(req, res, next) {
           res.send('Same Email is already exist');
           return;
       }};
+      emailPwPairs.id = prevData.length;
       prevData.push(emailPwPairs);
       prevFile.pairsNumber = prevData.length;
       fs.writeFile('database/users.txt', JSON.stringify(prevFile), function(err) {
@@ -81,7 +90,47 @@ router.post('/signup', function(req, res, next) {
     }
   });
 });
+router.post('/hosting1', function(req, res, next) {
+  var idNum = 0;
+  var tripSpecs = {id: idNum, kind: req.body.kind, type: req.body.type, room: req.body.room};
+  fs.readFile('database/trips.txt', 'utf8', function(err, data) {
+    if(err) {
+      res.status(500).send('something is wrong');
+    } else {
+      var prevFile = JSON.parse(data);
+      var prevData = prevFile.tripSpecs;
+      tripSpecs.id = prevData.length; // potential hazard
+      prevData.push(tripSpecs);
+      prevFile.currentId = prevData.length;
+      fs.writeFile('database/trips.txt', JSON.stringify(prevFile), function(err) {
+        if(err) {
+          res.status(500).send('something is wrong');
+        } else {
+          res.redirect('/page4');
+        }
+      });
+    }
+  });
+});
+router.post('/hosting2', function(req, res, next) {
+  fs.readFile('database/trips.txt', 'utf8', function(err, data) {
+    if(err) {
+      res.status(500).send('something is wrong');
+    } else {
+      var prevFile = JSON.parse(data);
+      var prevData = prevFile.tripSpecs;
+      prevData[prevFile.currentId-1].photoUrl = req.body.photo; // url로 저장
+      prevData[prevFile.currentId-1].description = req.body.description;
 
-
+      fs.writeFile('database/trips.txt', JSON.stringify(prevFile), function(err) {
+        if(err) {
+          res.status(500).send('something is wrong');
+        } else {
+          res.redirect('/page6');
+        }
+      });
+    }
+  });
+});
 
 module.exports = router;

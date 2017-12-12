@@ -46,7 +46,9 @@
       </nav>
     </header>
 
-
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"></div>
+    </div>
 
     <div class="container">
       <div class="row">
@@ -55,40 +57,42 @@
             <div class="hd">
               <h3>What kind of place are you listing?</h3>
             </div>
-            <div>
-              <div class="hd">
-                <p>Is this listing a home, hotel, or something else?</p>
-                <select class="form-control">
-                  <option>Home</option>
-                  <option>Hotel</option>
-                  <option>Something else</option>
-                </select>
-              </div>
-              <div class="hd">
-                <p>What type of property is this?</p>
-                <select class="form-control">
-                  <option>Apartment</option>
-                  <option>Guesthouse</option>
-                  <option>House</option>
-                  <option>Condominium</option>
-                  <option>In-law</option>
-                </select>
-              </div>
-              <div class="hd">
-                <p>What will guests have?</p>
-                <select class="form-control">
-                  <option>Entire place</option>
-                  <option>Private room</option>
-                  <option>Shared room</option>
-                </select>
-              </div>
+            <form action="/hosting1" method="post">
               <div>
-                <span>
-                  <a href="#">Back</a>
-                </span>
-                <button type="button" class="btn btn-primary">Next</button>
+                <div class="hd">
+                  <p>Is this listing a home, hotel, or something else?</p>
+                  <select class="form-control" name="kind">
+                    <option>Home</option>
+                    <option>Hotel</option>
+                    <option>Something else</option>
+                  </select>
+                </div>
+                <div class="hd">
+                  <p>What type of property is this?</p>
+                  <select class="form-control" name="type">
+                    <option>Apartment</option>
+                    <option>Guesthouse</option>
+                    <option>House</option>
+                    <option>Condominium</option>
+                    <option>In-law</option>
+                  </select>
+                </div>
+                <div class="hd">
+                  <p>What will guests have?</p>
+                  <select class="form-control" name="room">
+                    <option>Entire place</option>
+                    <option>Private room</option>
+                    <option>Shared room</option>
+                  </select>
+                </div>
+                <div>
+                  <span>
+                    <a href="#">Back</a>
+                  </span>
+                  <button type="submit" class="btn btn-primary">Next</button>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
         <div class="col">
