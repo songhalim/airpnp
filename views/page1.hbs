@@ -23,7 +23,7 @@
                 Trips
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">My reservation</a>
+                <a class="dropdown-item" href="/MyReservation">My reservation</a>
                 <a class="dropdown-item" href="#">null</a>
               </div>
             </li>
@@ -32,7 +32,7 @@
                 Host
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">My hosting</a>
+                <a class="dropdown-item" href="/MyHosting">My hosting</a>
                 <a class="dropdown-item" href="#">Host a home</a>
               </div>
             </li>
@@ -43,7 +43,11 @@
               <a class="nav-link" href="#">Sign up</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/page8">Log In</a>
+              {{#if signin}}
+                <a class="nav-link" href="/logout">Log Out</a>
+              {{else}}
+                <a class="nav-link" href="/page8">Log In</a>
+              {{/if}}
             </li>
           </ul>
         </div>

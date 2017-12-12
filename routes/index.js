@@ -40,6 +40,24 @@ router.get('/page8', function(req, res, next) {
 router.get('/page_template', function(req, res, next) {
   res.render('page_template');
 });
+router.get('/logout',function(req, res, next) {
+  req.session.destroy();
+  res.render('page1');
+});
+router.get('/MyReservation',function(req, res, next) {
+  if(req.session.id){
+    res.render('page5', {reservations:[]});
+  } else {
+    res.render('page8');
+  }
+});
+router.get('/MyHosting',function(req, res, next) {
+  if(req.session.id){
+    res.render('page6', {hostings:[]});
+  } else {
+    res.render('page8');
+  }
+});
 router.post('/login', function(req, res, next) {
   var emailPwPairs = {email: req.body.email, pw: req.body.password};
   let correct = false;
@@ -57,7 +75,7 @@ router.post('/login', function(req, res, next) {
         }
       };
     if(correct) {
-      res.redirect('/page1');
+      res.render('page1', {signin: true});
     } else {
       res.send('Invalid Email or Password');
       }
@@ -84,7 +102,7 @@ router.post('/signup', function(req, res, next) {
         if(err) {
           res.status(500).send('something is wrong');
         } else {
-          res.redirect('/page8');
+          res.render('page8');
         }
       });
     }
@@ -106,7 +124,7 @@ router.post('/hosting1', function(req, res, next) {
         if(err) {
           res.status(500).send('something is wrong');
         } else {
-          res.redirect('/page4');
+          res.render('page4');
         }
       });
     }
@@ -126,7 +144,7 @@ router.post('/hosting2', function(req, res, next) {
         if(err) {
           res.status(500).send('something is wrong');
         } else {
-          res.redirect('/page6');
+          res.render('page6');
         }
       });
     }

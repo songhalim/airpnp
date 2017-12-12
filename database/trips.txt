@@ -1,0 +1,1 @@
+{"tripSpecs":[{"id":0,"kind":"Home","type":"Apartment","room":"Entire place","photoUrl":"house.png","description":"123213"},{"id":1,"kind":"Home","type":"Apartment","room":"Entire place"},{"id":2,"kind":"Home","type":"Apartment","room":"Entire place","photoUrl":"","description":"123"}],"currentId":3}
