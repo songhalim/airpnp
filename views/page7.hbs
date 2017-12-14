@@ -9,7 +9,7 @@
   <body>
     <header>
       <nav class="navbar navbar-expand-md navbar-black fixed-top bg-white">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/page1">
           <img src="/images/airbnb.png" width="30" height="30" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,7 @@
                 Trips
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">My reservation</a>
+                <a class="dropdown-item" href="/MyReservation">My Reservation</a>
                 <a class="dropdown-item" href="#">null</a>
               </div>
             </li>
@@ -31,12 +31,15 @@
                 Host
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">My hosting</a>
-                <a class="dropdown-item" href="#">Host a home</a>
+                <a class="dropdown-item" href="/MyHosting">My Hosting</a>
+                <a class="dropdown-item" href="/HostHome">Host a Home</a>
               </div>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Help</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/page7">Sign Up</a>
             </li>
             <li class="nav-item">
               {{#if signin}}

@@ -14,25 +14,37 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Expresso' });
 });
 router.get('/page1', function(req, res, next) {
-  res.render('page1');
+  if(req.session.userId) {
+    res.render('page1', {signin: true, trips:[{},{},{}]);
+  } else {
+    res.render('page1');
+  }
 });
 router.get('/page2', function(req, res, next) {
-  res.render('page2');
+  if(req.session.userId) {
+    res.render('page2', {signin: true});
+  } else {
+    res.render('page2');
+  }
 });
-router.get('/page3', function(req, res, next) {
-  res.render('page3');
-});
-router.get('/page4', function(req, res, next) {
-  res.render('page4');
-});
-router.get('/page5', function(req, res, next) {
-  res.render('page5');
-});
-router.get('/page6', function(req, res, next) {
-  res.render('page6');
-});
+// router.get('/page3', function(req, res, next) {
+//   res.render('page3');
+// });
+// router.get('/page4', function(req, res, next) {
+//   res.render('page4');
+// });
+// router.get('/page5', function(req, res, next) {
+//   res.render('page5');
+// });
+// router.get('/page6', function(req, res, next) {
+//   res.render('page6');
+// });
 router.get('/page7', function(req, res, next) {
-  res.render('page7');
+  if(req.session.userId) {
+    res.render('page7', {signin: true});
+  } else {
+    res.render('page7');
+  }
 });
 router.get('/page8', function(req, res, next) {
   res.render('page8');
@@ -45,15 +57,22 @@ router.get('/logout',function(req, res, next) {
   res.render('page1');
 });
 router.get('/MyReservation',function(req, res, next) {
-  if(req.session.id){
+  if(req.session.userId){
     res.render('page5', {reservations:[]});
   } else {
     res.render('page8');
   }
 });
 router.get('/MyHosting',function(req, res, next) {
-  if(req.session.id){
+  if(req.session.userId){
     res.render('page6', {hostings:[]});
+  } else {
+    res.render('page8');
+  }
+});
+router.get('/HostHome',function(req, res, next) {
+  if(req.session.userId){
+    res.render('page3');
   } else {
     res.render('page8');
   }
@@ -70,7 +89,7 @@ router.post('/login', function(req, res, next) {
       for (let dataIndex = 0; dataIndex < prevData.length; dataIndex++) {
         if(prevData[dataIndex].email === emailPwPairs.email && prevData[dataIndex].pw === emailPwPairs.pw) {
           correct = true;
-          req.session.id = prevData[dataIndex].id;
+          req.session.userId = prevData[dataIndex].id;
           break;
         }
       };
