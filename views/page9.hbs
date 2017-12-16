@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>page4</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link href="/stylesheets/page9.css" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-md navbar-black fixed-top bg-white">
+        <a class="navbar-brand" href="/page1">
+          <img src="/images/airbnb.png" width="30" height="30" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Trips
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="/MyReservation">My Reservation</a>
+                <a class="dropdown-item" href="#">null</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Host
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="/MyHosting">My Hosting</a>
+                <a class="dropdown-item" href="/HostHome">Host a Home</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Help</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/page7">Sign Up</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Log Out</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="66.666" aria-valuemin="0" aria-valuemax="100" style="width: 66.666%"></div>
+    </div>
+
+    <script type="text/javascript">
+      {{#if fillin}}
+        alert("Please Fill in the Blank");
+      {{/if}}
+    </script>
+    
+    <div class="container">
+      <div class="row">
+
+        <div class="col-8">
+          <form action="/hosting2" method="post">
+            <div class="host-description">
+              <div class="hd">
+                <h2>Name your place</h2>
+              </div>
+              <div class="form-group hd">
+                  <input class="form-control form-control-lg" type="text" placeholder="Listing title" name="title">
+              </div>
+              <div class="hd">
+                <h2>Description</h2>
+              </div>
+              <div class="form-group hd">
+                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Describe the décor, light, what's nearby, etc..." name="description"></textarea>
+              </div>
+              <div>
+                <span>
+                  <a href="javascript:history.back()">Back</a>
+                </span>
+                <button type="submit" class="btn btn-primary">Next</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="col">
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">&copy; Airbnb, Inc.</span>
+        <span class="text-muted text-right">wowow</span>
+      </div>
+    </footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -9,16 +9,32 @@ router.use(session({
   saveUninitialized: true,
 }));
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Expresso' });
-});
 router.get('/page1', function(req, res, next) {
-  if(req.session.userId) {
-    res.render('page1', {signin: true, trips:[{},{},{}]);
-  } else {
-    res.render('page1');
-  }
+  fs.readFile('database/trips.txt', 'utf8', function(err,data) {
+    if(err) {
+      res.status(500).send('something is wrong');
+    } else {
+      var prevFile = JSON.parse(data);
+      var prevData = prevFile.tripSpecs;
+      var trip = [];
+      var numId = prevFile.currentId;
+      if (numId > 3) {
+        for (let i=numId-1; i>=numId-3; i--) {
+          trip.push(prevData[i]);
+        }
+      } else {
+        for (let i=numId-1; i>=0; i--) {
+          trip.push(prevData[i]);
+        }
+      }
+      console.log(trip);
+      if(req.session.userId) {
+        res.render('page1', {signin: true, trips: trip});
+      } else {
+        res.render('page1', {trips: trip});
+      }
+    }
+  });
 });
 router.get('/page2', function(req, res, next) {
   if(req.session.userId) {
@@ -27,18 +43,6 @@ router.get('/page2', function(req, res, next) {
     res.render('page2');
   }
 });
-// router.get('/page3', function(req, res, next) {
-//   res.render('page3');
-// });
-// router.get('/page4', function(req, res, next) {
-//   res.render('page4');
-// });
-// router.get('/page5', function(req, res, next) {
-//   res.render('page5');
-// });
-// router.get('/page6', function(req, res, next) {
-//   res.render('page6');
-// });
 router.get('/page7', function(req, res, next) {
   if(req.session.userId) {
     res.render('page7', {signin: true});
@@ -128,46 +132,104 @@ router.post('/signup', function(req, res, next) {
   });
 });
 router.post('/hosting1', function(req, res, next) {
-  var idNum = 0;
-  var tripSpecs = {id: idNum, kind: req.body.kind, type: req.body.type, room: req.body.room};
-  fs.readFile('database/trips.txt', 'utf8', function(err, data) {
-    if(err) {
-      res.status(500).send('something is wrong');
-    } else {
-      var prevFile = JSON.parse(data);
-      var prevData = prevFile.tripSpecs;
-      tripSpecs.id = prevData.length; // potential hazard
-      prevData.push(tripSpecs);
-      prevFile.currentId = prevData.length;
-      fs.writeFile('database/trips.txt', JSON.stringify(prevFile), function(err) {
-        if(err) {
-          res.status(500).send('something is wrong');
-        } else {
-          res.render('page4');
-        }
-      });
-    }
-  });
+  // var tripSpecs = {kind: req.body.kind, type: req.body.type, room: req.body.room, photoUrl: null};
+  req.session.item = {};
+  var item = req.session.item;
+  item.kind = req.body.kind;
+  item.type = req.body.type;
+  item.room = req.body.room;
+  res.render('page9');
+  // fs.readFile('database/trips.txt', 'utf8', function(err, data) {
+  //   if(err) {
+  //     res.status(500).send('something is wrong');
+  //   } else {
+  //     var prevFile = JSON.parse(data);
+  //     var prevData = prevFile.tripSpecs;
+  //     if(prevData[prevData.length-1].photoUrl === tripSpecs.photoUrl) {
+  //       tripSpecs.id = prevData.length
+  //       prevData.pop();
+  //       prevData.push(tripSpecs);
+  //     } else {
+  //       tripSpecs.id = prevData.length; // potential hazard
+  //       prevData.push(tripSpecs);
+  //       prevFile.currentId = prevData.length;
+  //     }
+  //
+  //     fs.writeFile('database/trips.txt', JSON.stringify(prevFile), function(err) {
+  //       if(err) {
+  //         res.status(500).send('something is wrong');
+  //       } else {
+  //         res.render('page9');
+  //       }
+  //     });
+  //   }
+  // });
 });
 router.post('/hosting2', function(req, res, next) {
-  fs.readFile('database/trips.txt', 'utf8', function(err, data) {
-    if(err) {
-      res.status(500).send('something is wrong');
-    } else {
-      var prevFile = JSON.parse(data);
-      var prevData = prevFile.tripSpecs;
-      prevData[prevFile.currentId-1].photoUrl = req.body.photo; // url로 저장
-      prevData[prevFile.currentId-1].description = req.body.description;
+  var item = req.session.item;
+  if (req.body.title && req.body.description) {
+    item.title = req.body.title;
+    item.description = req.body.description;
+    res.render('page4', {fillin: false});
+  } else {
+    res.render('page9', {fillin: true});
+  }
 
-      fs.writeFile('database/trips.txt', JSON.stringify(prevFile), function(err) {
-        if(err) {
-          res.status(500).send('something is wrong');
-        } else {
-          res.render('page6');
-        }
-      });
-    }
-  });
+  // fs.readFile('database/trips.txt', 'utf8', function(err, data) {
+  //   if(err) {
+  //     res.status(500).send('something is wrong');
+  //   } else {
+  //     var prevFile = JSON.parse(data);
+  //     var prevData = prevFile.tripSpecs;
+  //     prevData[prevFile.currentId-1].title = req.body.title;
+  //     prevData[prevFile.currentId-1].description = req.body.description;
+  //     fs.writeFile('database/trips.txt', JSON.stringify(prevFile), function(err) {
+  //       if(err) {
+  //         res.status(500).send('something is wrong');
+  //       } else {
+  //         if (req.body.title && req.body.description) {
+  //           res.render('page4');
+  //         } else {
+  //
+  //         }
+  //       }
+  //     });
+  //   }
+  // });
+});
+router.post('/hosting3', function(req, res, next) {
+  var tripSpecs = {};
+  tripSpecs.kind = req.session.item.kind;
+  tripSpecs.type = req.session.item.type;
+  tripSpecs.room = req.session.item.room;
+  tripSpecs.title = req.session.item.title;
+  tripSpecs.description = req.session.item.description;
+  if (req.body.photo) {
+    tripSpecs.photoUrl = req.body.photo;
+    fs.readFile('database/trips.txt', 'utf8', function(err, data) {
+      if(err) {
+        res.status(500).send('something is wrong');
+      } else {
+        var prevFile = JSON.parse(data);
+        var prevData = prevFile.tripSpecs;
+        tripSpecs.id = prevData.length;
+        prevData.push(tripSpecs);
+        prevFile.currentId = prevData.length;
+        fs.writeFile('database/trips.txt', JSON.stringify(prevFile), function(err) {
+          if(err) {
+            res.status(500).send('something is wrong');
+          } else {
+            res.render('page6', {fillin: false});
+          }
+        });
+      }
+    });
+  } else {
+    res.render('page4', {fillin: true});
+  }
 });
 
+router.get('/page4', function(req, res, next) {
+  res.render('page4');
+});
 module.exports = router;

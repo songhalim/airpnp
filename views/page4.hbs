@@ -5,6 +5,17 @@
     <title>page4</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link href="/stylesheets/page4.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/plugins/piexif.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/plugins/sortable.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/plugins/purify.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/fileinput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/themes/fa/theme.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.5/js/(lang).js"></script>
   </head>
   <body>
     <header>
@@ -53,37 +64,42 @@
       <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
     </div>
 
+    <script type="text/javascript">
+      {{#if fillin}}
+        alert("Please Upload Image File");
+      {{/if}}
+    </script>
+
     <div class="container">
       <div class="row">
 
-        <div class="col-8">
-          <form action="/hosting2" method="post">
+        <div class="col">
+          <form action="/hosting3" method="post">
             <div class="host-description">
               <div class="hd">
                 <h2>Show travelers what your space looks like</h2>
               </div>
-              <div class="form-group">
-                  <label for="exampleFormControlFile1">Image file input</label>
-                  <input type="file" class="form-control-file" id="exampleFormControlFile1" name="photo">
-              </div>
               <div class="hd">
-                <h2>Description</h2>
-              </div>
-              <div class="form-group">
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="description"></textarea>
+                <div class="file-loading">
+                    <input id="input-repl-1" name="photo" type="file">
+                </div>
+                <script>
+                $("#input-repl-1").fileinput({
+                    uploadUrl: "/images",
+                    autoReplace: true,
+                    maxFileCount: 1,
+                    allowedFileExtensions: ["jpg", "png"]
+                });
+                </script>
               </div>
               <div>
                 <span>
-                  <a href="/HostHome">Back</a>
+                  <a href="javascript:history.back()">Back</a>
                 </span>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </div>
             </div>
           </form>
-        </div>
-
-        <div class="col">
-
         </div>
 
       </div>
