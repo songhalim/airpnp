@@ -2,6 +2,18 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var session = require('express-session');
+var multer = require('multer');
+var path = require('path');
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/uploads/');
+    },
+    filename: function (req, file, cb) {
+      cb(null, new Date().valueOf() + path.extname(file.originalname));
+    }
+  })
+});
 
 router.use(session({
   secret: 'hahahahah',
@@ -29,7 +41,7 @@ router.get('/page1', function(req, res, next) {
       }
       console.log(trip);
       if(req.session.userId) {
-        res.render('page1', {signin: true, trips: trip});
+        res.render('page1', {trips: trip, signin: true});
       } else {
         res.render('page1', {trips: trip});
       }
@@ -58,7 +70,27 @@ router.get('/page_template', function(req, res, next) {
 });
 router.get('/logout',function(req, res, next) {
   req.session.destroy();
-  res.render('page1');
+  fs.readFile('database/trips.txt', 'utf8', function(err,data) {
+    if(err) {
+      res.status(500).send('something is wrong');
+    } else {
+      var prevFile = JSON.parse(data);
+      var prevData = prevFile.tripSpecs;
+      var trip = [];
+      var numId = prevFile.currentId;
+      if (numId > 3) {
+        for (let i=numId-1; i>=numId-3; i--) {
+          trip.push(prevData[i]);
+        }
+      } else {
+        for (let i=numId-1; i>=0; i--) {
+          trip.push(prevData[i]);
+        }
+      }
+      console.log(trip);
+      res.render('page1', {trips: trip});
+    }
+  });
 });
 router.get('/MyReservation',function(req, res, next) {
   if(req.session.userId){
@@ -97,11 +129,31 @@ router.post('/login', function(req, res, next) {
           break;
         }
       };
-    if(correct) {
-      res.render('page1', {signin: true});
-    } else {
-      res.send('Invalid Email or Password');
-      }
+      if(correct) {
+        fs.readFile('database/trips.txt', 'utf8', function(err,data) {
+          if(err) {
+            res.status(500).send('something is wrong');
+          } else {
+            var prevFile = JSON.parse(data);
+            var prevData = prevFile.tripSpecs;
+            var trip = [];
+            var numId = prevFile.currentId;
+            if (numId > 3) {
+              for (let i=numId-1; i>=numId-3; i--) {
+                trip.push(prevData[i]);
+              }
+            } else {
+              for (let i=numId-1; i>=0; i--) {
+                trip.push(prevData[i]);
+              }
+            }
+            console.log(trip);
+            res.render('page1', {signin: true, trips: trip});
+          }
+        });
+      } else {
+        res.render('page8', {invalid: true});
+        }
     }
   });
 });
@@ -197,15 +249,16 @@ router.post('/hosting2', function(req, res, next) {
   //   }
   // });
 });
-router.post('/hosting3', function(req, res, next) {
+router.post('/hosting3', upload.single('photo'), function(req, res, next) {
+  console.log(req.file);
   var tripSpecs = {};
   tripSpecs.kind = req.session.item.kind;
   tripSpecs.type = req.session.item.type;
   tripSpecs.room = req.session.item.room;
   tripSpecs.title = req.session.item.title;
   tripSpecs.description = req.session.item.description;
-  if (req.body.photo) {
-    tripSpecs.photoUrl = req.body.photo;
+  if (req.file) {
+    tripSpecs.photoName = req.file.filename;
     fs.readFile('database/trips.txt', 'utf8', function(err, data) {
       if(err) {
         res.status(500).send('something is wrong');
