@@ -28,22 +28,35 @@ router.get('/page1', function(req, res, next) {
     } else {
       var prevFile = JSON.parse(data);
       var prevData = prevFile.tripSpecs;
-      var trip = [];
       var numId = prevFile.currentId;
-      if (numId > 3) {
-        for (let i=numId-1; i>=numId-3; i--) {
-          trip.push(prevData[i]);
-        }
-      } else {
-        for (let i=numId-1; i>=0; i--) {
-          trip.push(prevData[i]);
-        }
+      var noTrip = {"title":"Host now!!!", "description":"Host now!!!", "photoName":"airpnp.png"};
+      var trip_1 = [];
+      for (let i=numId-1; i>numId-4; i--) {
+        trip_1.push(prevData[i]);
+      };
+      if (numId>3) {
+        var trip_2 = [];
+        for (let i=numId-4; i>numId-7; i--) {
+          if(prevData[i]) {
+            trip_2.push(prevData[i]);
+          } else {
+            trip_2.push(noTrip);
+          }
+        };
+      } else if (numId>6) {
+        var trip_3 = [];
+        for (let i=numId-7; i>numId-10; i--) {
+          if(prevData[i]) {
+            trip_3.push(prevData[i]);
+          } else {
+            trip_3.push(noTrip);
+          }
+        };
       }
-      console.log(trip);
       if(req.session.userId) {
-        res.render('page1', {trips: trip, signin: true});
+        res.render('page1', {trips_1: trip_1, trips_2: trip_2, trips_3: trip_3, signin: true});
       } else {
-        res.render('page1', {trips: trip});
+        res.render('page1', {trips_1: trip_1, trips_2: trip_2, trips_3: trip_3});
       }
     }
   });
@@ -76,19 +89,32 @@ router.get('/logout',function(req, res, next) {
     } else {
       var prevFile = JSON.parse(data);
       var prevData = prevFile.tripSpecs;
-      var trip = [];
       var numId = prevFile.currentId;
-      if (numId > 3) {
-        for (let i=numId-1; i>=numId-3; i--) {
-          trip.push(prevData[i]);
-        }
-      } else {
-        for (let i=numId-1; i>=0; i--) {
-          trip.push(prevData[i]);
-        }
+      var noTrip = {"title":"Host now!!!", "description":"Host now!!!", "photoName":"airpnp.png"};
+      var trip_1 = [];
+      for (let i=numId-1; i>numId-4; i--) {
+        trip_1.push(prevData[i]);
+      };
+      if (numId>3) {
+        var trip_2 = [];
+        for (let i=numId-4; i>numId-7; i--) {
+          if(prevData[i]) {
+            trip_2.push(prevData[i]);
+          } else {
+            trip_2.push(noTrip);
+          }
+        };
+      } else if (numId>6) {
+        var trip_3 = [];
+        for (let i=numId-7; i>numId-10; i--) {
+          if(prevData[i]) {
+            trip_3.push(prevData[i]);
+          } else {
+            trip_3.push(noTrip);
+          }
+        };
       }
-      console.log(trip);
-      res.render('page1', {trips: trip});
+      res.render('page1', {trips_1: trip_1, trips_2: trip_2, trips_3: trip_3});
     }
   });
 });
@@ -136,19 +162,32 @@ router.post('/login', function(req, res, next) {
           } else {
             var prevFile = JSON.parse(data);
             var prevData = prevFile.tripSpecs;
-            var trip = [];
             var numId = prevFile.currentId;
-            if (numId > 3) {
-              for (let i=numId-1; i>=numId-3; i--) {
-                trip.push(prevData[i]);
-              }
-            } else {
-              for (let i=numId-1; i>=0; i--) {
-                trip.push(prevData[i]);
-              }
+            var noTrip = {"title":"Host now!!!", "description":"Host now!!!", "photoName":"airpnp.png"};
+            var trip_1 = [];
+            for (let i=numId-1; i>numId-4; i--) {
+              trip_1.push(prevData[i]);
+            };
+            if (numId>3) {
+              var trip_2 = [];
+              for (let i=numId-4; i>numId-7; i--) {
+                if(prevData[i]) {
+                  trip_2.push(prevData[i]);
+                } else {
+                  trip_2.push(noTrip);
+                }
+              };
+            } else if (numId>6) {
+              var trip_3 = [];
+              for (let i=numId-7; i>numId-10; i--) {
+                if(prevData[i]) {
+                  trip_3.push(prevData[i]);
+                } else {
+                  trip_3.push(noTrip);
+                }
+              };
             }
-            console.log(trip);
-            res.render('page1', {signin: true, trips: trip});
+            res.render('page1', {signin: true, trips_1: trip_1, trips_2: trip_2, trips_3: trip_3});
           }
         });
       } else {
@@ -184,38 +223,12 @@ router.post('/signup', function(req, res, next) {
   });
 });
 router.post('/hosting1', function(req, res, next) {
-  // var tripSpecs = {kind: req.body.kind, type: req.body.type, room: req.body.room, photoUrl: null};
   req.session.item = {};
   var item = req.session.item;
   item.kind = req.body.kind;
   item.type = req.body.type;
   item.room = req.body.room;
   res.render('page9');
-  // fs.readFile('database/trips.txt', 'utf8', function(err, data) {
-  //   if(err) {
-  //     res.status(500).send('something is wrong');
-  //   } else {
-  //     var prevFile = JSON.parse(data);
-  //     var prevData = prevFile.tripSpecs;
-  //     if(prevData[prevData.length-1].photoUrl === tripSpecs.photoUrl) {
-  //       tripSpecs.id = prevData.length
-  //       prevData.pop();
-  //       prevData.push(tripSpecs);
-  //     } else {
-  //       tripSpecs.id = prevData.length; // potential hazard
-  //       prevData.push(tripSpecs);
-  //       prevFile.currentId = prevData.length;
-  //     }
-  //
-  //     fs.writeFile('database/trips.txt', JSON.stringify(prevFile), function(err) {
-  //       if(err) {
-  //         res.status(500).send('something is wrong');
-  //       } else {
-  //         res.render('page9');
-  //       }
-  //     });
-  //   }
-  // });
 });
 router.post('/hosting2', function(req, res, next) {
   var item = req.session.item;
@@ -226,31 +239,8 @@ router.post('/hosting2', function(req, res, next) {
   } else {
     res.render('page9', {fillin: true});
   }
-
-  // fs.readFile('database/trips.txt', 'utf8', function(err, data) {
-  //   if(err) {
-  //     res.status(500).send('something is wrong');
-  //   } else {
-  //     var prevFile = JSON.parse(data);
-  //     var prevData = prevFile.tripSpecs;
-  //     prevData[prevFile.currentId-1].title = req.body.title;
-  //     prevData[prevFile.currentId-1].description = req.body.description;
-  //     fs.writeFile('database/trips.txt', JSON.stringify(prevFile), function(err) {
-  //       if(err) {
-  //         res.status(500).send('something is wrong');
-  //       } else {
-  //         if (req.body.title && req.body.description) {
-  //           res.render('page4');
-  //         } else {
-  //
-  //         }
-  //       }
-  //     });
-  //   }
-  // });
 });
 router.post('/hosting3', upload.single('photo'), function(req, res, next) {
-  console.log(req.file);
   var tripSpecs = {};
   tripSpecs.kind = req.session.item.kind;
   tripSpecs.type = req.session.item.type;
