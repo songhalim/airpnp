@@ -10,7 +10,7 @@
     <header>
       <nav class="navbar navbar-expand-md navbar-black fixed-top bg-white">
         <a class="navbar-brand" href="/page1">
-          <img src="/images/airbnb.png" width="30" height="30" alt="">
+          <img src="/images/airpnp.png" width="30" height="30" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -58,27 +58,30 @@
         <div class="col-8">
 
           <div class="house-name">
-            <h2>House Name</h2>
+            <h2>{{hostings.title}}</h2>
+            <p class="text-muted">{{hostings.room}} in {{hostings.type}}</p>
           </div>
           <div class="house-description">
-              <p>House Description</p>
+              <p>{{hostings.description}}</p>
           </div>
 
         </div>
         <div class="col">
           <div>
-            <img class="host-image" src="/images/house.png">
+            <img class="host-image" src="/uploads/{{hostings.photoName}}">
           </div>
-          <div class="button">
-            <button type="button" class="btn btn-primary">Request to book</button>
-          </div>
+          <form action="/reservation" method="post">
+            <div class="button">
+              <button type="submit" class="btn btn-primary">Request to book</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
 
     <footer class="footer">
       <div class="container">
-        <span class="text-muted">&copy; Airbnb, Inc.</span>
+        <span class="text-muted">&copy; Airpnp, Inc.</span>
         <span class="text-muted text-right">wowow</span>
       </div>
     </footer>

@@ -32,7 +32,11 @@ router.get('/page1', function(req, res, next) {
       var noTrip = {"title":"Host now!!!", "description":"Host now!!!", "photoName":"airpnp.png"};
       var trip_1 = [];
       for (let i=numId-1; i>numId-4; i--) {
-        trip_1.push(prevData[i]);
+        if(prevData[i]) {
+          trip_1.push(prevData[i]);
+        } else {
+          trip_1.push(noTrip);
+        }
       };
       if (numId>3) {
         var trip_2 = [];
@@ -43,7 +47,8 @@ router.get('/page1', function(req, res, next) {
             trip_2.push(noTrip);
           }
         };
-      } else if (numId>6) {
+      }
+      if (numId>6) {
         var trip_3 = [];
         for (let i=numId-7; i>numId-10; i--) {
           if(prevData[i]) {
@@ -62,11 +67,25 @@ router.get('/page1', function(req, res, next) {
   });
 });
 router.get('/page2', function(req, res, next) {
-  if(req.session.userId) {
-    res.render('page2', {signin: true});
-  } else {
-    res.render('page2');
-  }
+  fs.readFile('database/trips.txt', 'utf8', function(err,data) {
+    if(err) {
+      res.status(500).send('something is wrong');
+    } else {
+      var prevFile = JSON.parse(data);
+      var prevData = prevFile.tripSpecs;
+      for(var i=0; i<prevFile.currentId; i++) {
+        if (Number(req.query.id) === i) {
+          var hosting = prevData[i];
+          break;
+        }
+      };
+      if(req.session.userId) {
+        res.render('page2', {signin: true, hostings: hosting});
+      } else {
+        res.render('page2', {hostings: hosting});
+      }
+    }
+  });
 });
 router.get('/page7', function(req, res, next) {
   if(req.session.userId) {
@@ -93,7 +112,11 @@ router.get('/logout',function(req, res, next) {
       var noTrip = {"title":"Host now!!!", "description":"Host now!!!", "photoName":"airpnp.png"};
       var trip_1 = [];
       for (let i=numId-1; i>numId-4; i--) {
-        trip_1.push(prevData[i]);
+        if(prevData[i]) {
+          trip_1.push(prevData[i]);
+        } else {
+          trip_1.push(noTrip);
+        }
       };
       if (numId>3) {
         var trip_2 = [];
@@ -117,6 +140,34 @@ router.get('/logout',function(req, res, next) {
       res.render('page1', {trips_1: trip_1, trips_2: trip_2, trips_3: trip_3});
     }
   });
+});
+router.post('/reservation', function(req, res, next) {
+  if(req.session.userId) {
+    fs.readFile('database/users.txt', 'utf8', function(err, data) {
+      if(err) {
+        res.status(500).send('something is wrong');
+      } else {
+        var prevFile = JSON.parse(data);
+        var prevData = prevFile.emailPwPairs;
+        for(var i=0; i<prevFile.pairsNumber; i++) {
+          if(i === req.session.userId) {
+            // console.log(req.query.id);
+            // prevData[i].tripIds.push(req.query.id);
+            break;
+          }
+        };
+        fs.writeFile('database/users.txt', JSON.stringify(prevFile), function(err) {
+          if(err) {
+            res.status(500).send('something is wrong');
+          } else {
+            res.render('page5');
+          }
+        });
+      }
+    });
+  } else {
+    res.render('page8');
+  }
 });
 router.get('/MyReservation',function(req, res, next) {
   if(req.session.userId){
@@ -166,7 +217,11 @@ router.post('/login', function(req, res, next) {
             var noTrip = {"title":"Host now!!!", "description":"Host now!!!", "photoName":"airpnp.png"};
             var trip_1 = [];
             for (let i=numId-1; i>numId-4; i--) {
-              trip_1.push(prevData[i]);
+              if(prevData[i]) {
+                trip_1.push(prevData[i]);
+              } else {
+                trip_1.push(noTrip);
+              }
             };
             if (numId>3) {
               var trip_2 = [];
@@ -242,6 +297,7 @@ router.post('/hosting2', function(req, res, next) {
 });
 router.post('/hosting3', upload.single('photo'), function(req, res, next) {
   var tripSpecs = {};
+  var hostId = 0;
   tripSpecs.kind = req.session.item.kind;
   tripSpecs.type = req.session.item.type;
   tripSpecs.room = req.session.item.room;
@@ -256,6 +312,7 @@ router.post('/hosting3', upload.single('photo'), function(req, res, next) {
         var prevFile = JSON.parse(data);
         var prevData = prevFile.tripSpecs;
         tripSpecs.id = prevData.length;
+        hostId = tripSpecs.id;
         prevData.push(tripSpecs);
         prevFile.currentId = prevData.length;
         fs.writeFile('database/trips.txt', JSON.stringify(prevFile), function(err) {
@@ -263,6 +320,24 @@ router.post('/hosting3', upload.single('photo'), function(req, res, next) {
             res.status(500).send('something is wrong');
           } else {
             res.render('page6', {fillin: false});
+          }
+        });
+      }
+    });
+    fs.readFile('database/users.txt', 'utf8', function(err, data) {
+      if(err) {
+        res.status(500).send('something is wrong');
+      } else {
+        var userFile = JSON.parse(data);
+        var userData = userFile.emailPwPairs;
+        for(i=0; i<userFile.pairsNumber; i++) {
+          if(req.session.userId === i) {
+            userData[i].hostIds.push(hostId);
+          }
+        };
+        fs.writeFile('database/users.txt', JSON.stringify(userFile), function(err) {
+          if(err) {
+            res.status(500).send('something is wrong');
           }
         });
       }

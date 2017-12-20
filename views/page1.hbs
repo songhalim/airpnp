@@ -11,7 +11,7 @@
     <header>
       <nav class="navbar navbar-expand-md navbar-black fixed-top bg-white">
         <a class="navbar-brand" href="/page1">
-          <img src="/images/airbnb.png" width="30" height="30" alt="그림">
+          <img src="/images/airpnp.png" width="30" height="30" alt="그림">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -57,7 +57,14 @@
     <main role="main" class="container">
       <div class="jumbotron w-100 p-20">
         <div class="container">
-          <h1 class=display-3 >Hello, world</h1>
+          <h1 class=display-3>
+            <span>
+              <p class="company">Airpnp</p>
+            </span>
+            <div>
+              Book unique homes and experiences all over the world.
+            </div>
+          </h1>
         </div>
         <div class="container">
           <form class="form-inline my-2 my-lg-0 mx-auto">
@@ -75,7 +82,9 @@
                 <div class="card-deck">
                   {{#each trips_1}}
                     <div class="card">
-                      <img class="card-img-top" src="http://localhost:3000/uploads/{{photoName}}" alt="Card image cap">
+                      <a href="/page2?id={{id}}">
+                        <img class="card-img-top" src="http://localhost:3000/uploads/{{photoName}}" alt="Card image cap">
+                      </a>
                       <div class="card-body">
                         <h4 class="card-title">{{title}}</h4>
                         <p class="card-text">{{description}}</p>
@@ -90,7 +99,9 @@
                   <div class="card-deck">
                     {{#each trips_2}}
                       <div class="card">
-                        <img class="card-img-top" src="http://localhost:3000/uploads/{{photoName}}" alt="Card image cap">
+                        <a href="/page2?id={{id}}">
+                          <img class="card-img-top" src="http://localhost:3000/uploads/{{photoName}}" alt="Card image cap">
+                        </a>
                         <div class="card-body">
                           <h4 class="card-title">{{title}}</h4>
                           <p class="card-text">{{description}}</p>
@@ -106,7 +117,9 @@
                   <div class="card-deck">
                     {{#each trips_3}}
                       <div class="card">
-                        <img class="card-img-top" src="http://localhost:3000/uploads/{{photoName}}" alt="Card image cap">
+                        <a href="/page2?id={{id}}">
+                          <img class="card-img-top" src="http://localhost:3000/uploads/{{photoName}}" alt="Card image cap">
+                        </a>
                         <div class="card-body">
                           <h4 class="card-title">{{title}}</h4>
                           <p class="card-text">{{description}}</p>
@@ -137,7 +150,7 @@
 
     <footer class="footer">
       <div class="container">
-        <span class="text-muted">&copy; Airbnb, Inc.</span>
+        <span class="text-muted">&copy; Airpnp, Inc.</span>
         <span class="text-muted text-right">wowow</span>
       </div>
     </footer>
