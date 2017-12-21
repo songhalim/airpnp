@@ -53,6 +53,12 @@
       </nav>
     </header>
 
+    <script type="text/javascript">
+      {{#if overlap}}
+        alert("Please Fill in the Blank");
+      {{/if}}
+    </script>
+
     <div class="container">
       <div class="row">
         <div class="col-8">
@@ -71,6 +77,7 @@
             <img class="host-image" src="/uploads/{{hostings.photoName}}">
           </div>
           <form action="/reservation" method="post">
+            <input type="hidden" value="{{hostings.id}}" name="hostingId">
             <div class="button">
               <button type="submit" class="btn btn-primary">Request to book</button>
             </div>

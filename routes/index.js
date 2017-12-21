@@ -147,20 +147,66 @@ router.post('/reservation', function(req, res, next) {
       if(err) {
         res.status(500).send('something is wrong');
       } else {
-        var prevFile = JSON.parse(data);
-        var prevData = prevFile.emailPwPairs;
-        for(var i=0; i<prevFile.pairsNumber; i++) {
+        var userFile = JSON.parse(data);
+        var userData = userFile.emailPwPairs;
+        var overlap = false;
+        for(var i=0; i<userFile.pairsNumber; i++) {
           if(i === req.session.userId) {
-            // console.log(req.query.id);
-            // prevData[i].tripIds.push(req.query.id);
+            for(var j=0; j<=userData[i].tripIds.length; j++) {
+              if(userData[i].tripIds[j] === Number(req.body.hostingId)) {
+                overlap = true;
+                break;
+              }
+            };
+            if(!overlap) {
+              userData[i].tripIds.push(Number(req.body.hostingId));
+            }
             break;
           }
         };
-        fs.writeFile('database/users.txt', JSON.stringify(prevFile), function(err) {
+        var trips = userData[req.session.userId].tripIds;
+        fs.readFile('database/trips.txt', 'utf8', function(err, data) {
           if(err) {
             res.status(500).send('something is wrong');
           } else {
-            res.render('page5');
+            var prevFile = JSON.parse(data);
+            var prevData = prevFile.tripSpecs;
+            var numId = trips.length;
+            var noTrip = {"title":"Book now!!!", "description":"Book now!!!", "photoName":"airpnp.png"};
+            var trip_1 = [];
+            for (let i=numId-1; i>numId-4; i--) {
+              if(prevData[trips[i]]) {
+                trip_1.push(prevData[trips[i]]);
+              } else {
+                trip_1.push(noTrip);
+              }
+            };
+            if (numId>3) {
+              var trip_2 = [];
+              for (let i=numId-4; i>numId-7; i--) {
+                if(prevData[trips[i]]) {
+                  trip_2.push(prevData[trips[i]]);
+                } else {
+                  trip_2.push(noTrip);
+                }
+              };
+            }
+            if (numId>6) {
+              var trip_3 = [];
+              for (let i=numId-7; i>numId-10; i--) {
+                if(prevData[trips[i]]) {
+                  trip_3.push(prevData[trips[i]]);
+                } else {
+                  trip_3.push(noTrip);
+                }
+              };
+            }
+          }
+          res.render('page5', {trips_1: trip_1, trips_2: trip_2, trips_3: trip_3});
+        });
+        fs.writeFile('database/users.txt', JSON.stringify(userFile), function(err) {
+          if(err) {
+            res.status(500).send('something is wrong');
           }
         });
       }
@@ -171,14 +217,108 @@ router.post('/reservation', function(req, res, next) {
 });
 router.get('/MyReservation',function(req, res, next) {
   if(req.session.userId){
-    res.render('page5', {reservations:[]});
+    fs.readFile('database/users.txt', 'utf8', function(err, data) {
+      if(err) {
+        res.status(500).send('something is wrong');
+      } else {
+        var userFile = JSON.parse(data)
+        var userData = userFile.emailPwPairs;
+        var reservations = userData[req.session.userId].tripIds;
+        fs.readFile('database/trips.txt', 'utf8', function(err, data) {
+          if(err) {
+            res.status(500).send('something is wrong');
+          } else {
+            var prevFile = JSON.parse(data);
+            var prevData = prevFile.tripSpecs;
+            var numId = reservations.length;
+            var noTrip = {"title":"Book now!!!", "description":"Book now!!!", "photoName":"airpnp.png"};
+            var trip_1 = [];
+            for (let i=numId-1; i>numId-4; i--) {
+              if(prevData[reservations[i]]) {
+                trip_1.push(prevData[reservations[i]]);
+              } else {
+                trip_1.push(noTrip);
+              }
+            };
+            if (numId>3) {
+              var trip_2 = [];
+              for (let i=numId-4; i>numId-7; i--) {
+                if(prevData[reservations[i]]) {
+                  trip_2.push(prevData[reservations[i]]);
+                } else {
+                  trip_2.push(noTrip);
+                }
+              };
+            }
+            if (numId>6) {
+              var trip_3 = [];
+              for (let i=numId-7; i>numId-10; i--) {
+                if(prevData[reservations[i]]) {
+                  trip_3.push(prevData[reservations[i]]);
+                } else {
+                  trip_3.push(noTrip);
+                }
+              };
+            }
+            res.render('page5', {trips_1: trip_1, trips_2: trip_2, trips_3: trip_3});
+          }
+        });
+      }
+    });
   } else {
     res.render('page8');
   }
 });
 router.get('/MyHosting',function(req, res, next) {
   if(req.session.userId){
-    res.render('page6', {hostings:[]});
+    fs.readFile('database/users.txt', 'utf8', function(err, data) {
+      if(err) {
+        res.status(500).send('something is wrong');
+      } else {
+        var userFile = JSON.parse(data)
+        var userData = userFile.emailPwPairs;
+        var hostings = userData[req.session.userId].hostIds;
+        fs.readFile('database/trips.txt', 'utf8', function(err, data) {
+          if(err) {
+            res.status(500).send('something is wrong');
+          } else {
+            var prevFile = JSON.parse(data);
+            var prevData = prevFile.tripSpecs;
+            var numId = hostings.length;
+            var noTrip = {"title":"Host now!!!", "description":"Host now!!!", "photoName":"airpnp.png"};
+            var trip_1 = [];
+            for (let i=numId-1; i>numId-4; i--) {
+              if(prevData[hostings[i]]) {
+                trip_1.push(prevData[hostings[i]]);
+              } else {
+                trip_1.push(noTrip);
+              }
+            };
+            if (numId>3) {
+              var trip_2 = [];
+              for (let i=numId-4; i>numId-7; i--) {
+                if(prevData[hostings[i]]) {
+                  trip_2.push(prevData[hostings[i]]);
+                } else {
+                  trip_2.push(noTrip);
+                }
+              };
+            }
+            if (numId>6) {
+              var trip_3 = [];
+              for (let i=numId-7; i>numId-10; i--) {
+                if(prevData[hostings[i]]) {
+                  trip_3.push(prevData[hostings[i]]);
+                } else {
+                  trip_3.push(noTrip);
+                }
+              };
+            }
+            res.render('page6', {trips_1: trip_1, trips_2: trip_2, trips_3: trip_3});
+          }
+        });
+      }
+    });
   } else {
     res.render('page8');
   }
@@ -315,33 +455,66 @@ router.post('/hosting3', upload.single('photo'), function(req, res, next) {
         hostId = tripSpecs.id;
         prevData.push(tripSpecs);
         prevFile.currentId = prevData.length;
-        fs.writeFile('database/trips.txt', JSON.stringify(prevFile), function(err) {
+        fs.readFile('database/users.txt', 'utf8', function(err, data) {
           if(err) {
             res.status(500).send('something is wrong');
           } else {
-            res.render('page6', {fillin: false});
+            var userFile = JSON.parse(data);
+            var userData = userFile.emailPwPairs;
+            for(i=0; i<userFile.pairsNumber; i++) {
+              if(req.session.userId === i) {
+                userData[i].hostIds.push(hostId);
+              }
+            };
+            var hostings = userData[req.session.userId].hostIds;
+            var numId = hostings.length;
+            var noTrip = {"title":"Host now!!!", "description":"Host now!!!", "photoName":"airpnp.png"};
+            var trip_1 = [];
+            for (let i=numId-1; i>numId-4; i--) {
+              if(prevData[hostings[i]]) {
+                trip_1.push(prevData[hostings[i]]);
+              } else {
+                trip_1.push(noTrip);
+              }
+            };
+            if (numId>3) {
+              var trip_2 = [];
+              for (let i=numId-4; i>numId-7; i--) {
+                if(prevData[hostings[i]]) {
+                  trip_2.push(prevData[hostings[i]]);
+                } else {
+                  trip_2.push(noTrip);
+                }
+              };
+            }
+            if (numId>6) {
+              var trip_3 = [];
+              for (let i=numId-7; i>numId-10; i--) {
+                if(prevData[hostings[i]]) {
+                  trip_3.push(prevData[hostings[i]]);
+                } else {
+                  trip_3.push(noTrip);
+                }
+              };
+            }
+
+            fs.writeFile('database/users.txt', JSON.stringify(userFile), function(err) {
+              if(err) {
+                res.status(500).send('something is wrong');
+              } else {
+                res.render('page6', {fillin: false, trips_1: trip_1, trips_2: trip_2, trips_3: trip_3});
+              }
+            });
           }
         });
-      }
-    });
-    fs.readFile('database/users.txt', 'utf8', function(err, data) {
-      if(err) {
-        res.status(500).send('something is wrong');
-      } else {
-        var userFile = JSON.parse(data);
-        var userData = userFile.emailPwPairs;
-        for(i=0; i<userFile.pairsNumber; i++) {
-          if(req.session.userId === i) {
-            userData[i].hostIds.push(hostId);
-          }
-        };
-        fs.writeFile('database/users.txt', JSON.stringify(userFile), function(err) {
+        fs.writeFile('database/trips.txt', JSON.stringify(prevFile), function(err) {
           if(err) {
             res.status(500).send('something is wrong');
           }
         });
       }
     });
+
   } else {
     res.render('page4', {fillin: true});
   }
