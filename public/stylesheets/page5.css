@@ -63,3 +63,11 @@ body {
 .title {
   padding: 5rem 0 0 10rem;
 }
+
+nav {
+  background-color: #446797;
+}
+
+.nav-link {
+  color: white;
+}

@@ -60,3 +60,11 @@ body {
 .btn-primary {
   float: right;
 }
+
+nav {
+  background-color: #446797;
+}
+
+.nav-link {
+  color: white;
+}

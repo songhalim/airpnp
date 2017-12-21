@@ -66,3 +66,11 @@ h1 {
 .company {
   color: #446797;
 }
+
+nav {
+  background-color: #446797;
+}
+
+.nav-link {
+  color: white;
+}

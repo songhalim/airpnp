@@ -45,3 +45,11 @@ body {
 .title {
   padding-bottom: 20px;
 }
+
+nav {
+  background-color: #446797;
+}
+
+.nav-link {
+  color: white;
+}
